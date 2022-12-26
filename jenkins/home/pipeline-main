@@ -1,0 +1,19 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                //update local repo
+                sh 'cd /tmp/repo/b11-5.git && git pull origin develop'
+            }
+        }
+        
+        stage('Execute') {
+            steps {
+                //executing sql script
+                sh 'mysql --user rfamro --host mysql-rfam-public.ebi.ac.uk --port 4497 < /tmp/repo/b11-5.git/jenkins/home/rat_rna.sql'
+            }
+        }
+    }
+}
