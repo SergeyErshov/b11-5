@@ -14,7 +14,8 @@
 
 ### 🖍️ ну и собственно демострация работы самого триггера
 
-`Started on Dec 26, 2022, 3:56:03 PM
+```
+Started on Dec 26, 2022, 3:56:03 PM
 Started by event from 140.82.115.242 ⇒ http://158.160.47.185:8080/github-webhook/ on Mon Dec 26 15:56:03 UTC 2022
 Using strategy: Default
 [poll] Last Built Revision: Revision d92e6790c5be017f3a82477813f0c9eff80df26f (refs/remotes/origin/develop)
@@ -32,11 +33,13 @@ You're using 'Known hosts file' strategy to verify ssh host keys, but your known
 Found 1 remote heads on https://github.com/SergeyErshov/b11-5.git
 [poll] Latest remote head revision on refs/heads/develop is: 61cb2224fb2e0b157678e57be4eaacc364be2e24
 Done. Took 0.46 sec
-Changes found`
+Changes found
+```
 
 а также вывод консоли (частично):  
 
-`RF00005	CM000250.2	8615663	8615731
+```
+RF00005	CM000250.2	8615663	8615731
 RF00005	CM000250.2	21741069	21741001
 RF00005	CM000250.2	8556718	8556650
 RF00005	CM000250.2	8996712	8996644
@@ -73,4 +76,5 @@ RF00005	CM000250.2	53189335	53189403
 RF00005	CM000250.2	12090342	12090274
 RF00005	CM000250.2	12255644	12255576
 RF00005	CM000250.2	4173070	4173132
-RF00005	CM000250.2	8067562	8067630`
+RF00005	CM000250.2	8067562	8067630
+```
