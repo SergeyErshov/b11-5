@@ -8,6 +8,7 @@ terraform {
 
   required_version = ">= 0.13"
 
+/*
   # Настройка доступа к S3 внешнему хранилищу State-файла
 
   backend "s3" {
@@ -19,6 +20,7 @@ terraform {
     skip_region_validation      = true
     skip_credentials_validation = true
   }
+  */
 }
 
 
