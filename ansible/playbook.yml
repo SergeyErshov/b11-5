@@ -20,3 +20,7 @@
       service:
         name: docker
         state: started
+
+    - name: run jenkins container
+      shell:
+        cmd: "docker run --name jenkins -p 8080:8080 -p 50000:50000 -v /mnt/d/home/esm/B11-5/jenkins/home jenkins/jenkins"
