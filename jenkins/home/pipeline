@@ -1,0 +1,22 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                // mk dir if not exist
+                sh 'mkdir -p /tmp/repo'
+                
+                //get sql script
+                sh 'git clone https://github.com/SergeyErshov/b11-5.git /tmp/repo/b11-5.git'
+            }
+        }
+        
+        stage('Execute') {
+            steps {
+                //executing sql
+                sh 'mysql --user rfamro --host mysql-rfam-public.ebi.ac.uk --port 4497 < /tmp/repo/b11-5.git/jenkins/home/rat_rna.sql'
+            }
+        }
+    }
+}
