@@ -1,0 +1,22 @@
+- name: jenkins
+  hosts: hosts
+  gather_facts: false
+  become: true
+  become_user: "root"
+  become_method: "sudo"
+
+  tasks:
+  
+    - name: install epel
+      yum:
+        name: epel-release
+        update_cache: true
+
+    - name: install docker
+      yum:
+        name: docker
+
+    - name: start docker service
+      service:
+        name: docker
+        state: started
