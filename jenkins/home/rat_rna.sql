@@ -1,5 +1,5 @@
 
-USE Rfam;
+use Rfam;
 
 SELECT fr.rfam_acc, fr.rfamseq_acc, fr.seq_start, fr.seq_end
 FROM full_region fr, rfamseq rf, taxonomy tx
