@@ -1,0 +1,15 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                // mk dir if not exist
+                sh 'mkdir -p /tmp/repo'
+                
+                //clone repo
+                sh 'git clone https://github.com/SergeyErshov/b11-5.git /tmp/repo/b11-5.git'
+            }
+        }
+    }
+}
