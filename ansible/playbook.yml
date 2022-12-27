@@ -1,5 +1,5 @@
 - name: install docker and config users
-  hosts: a
+  hosts: all
   gather_facts: false
   become: true
   become_user: "root"
