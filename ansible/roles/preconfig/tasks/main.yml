@@ -6,3 +6,5 @@
     path: /home/jenkins
     state: directory
     owner: jenkins
+    group: jenkins
+
