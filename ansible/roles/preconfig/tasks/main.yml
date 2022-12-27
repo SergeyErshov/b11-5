@@ -1,0 +1,8 @@
+---
+# tasks file for preconfig
+
+- name: create jenkins home dir
+  file:
+    path: /home/jenkins
+    state: directory
+    owner: jenkins
