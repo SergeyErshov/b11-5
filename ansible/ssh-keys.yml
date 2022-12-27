@@ -11,19 +11,19 @@
       ansible.builtin.user:
         name: jenkins
         generate_ssh_key: yes
-        ssh_key_bits: 2048
-        ssh_key_file: /home/jenkins/.ssh/id_rsa
+        ssh_key_type: ed25519
+        ssh_key_file: /home/jenkins/.ssh/id-ed25519
 
     - name: fetch pub keys to local
       fetch:
         src: "/home/jenkins/.ssh/id_rsa.pub"
-        dest: "/mnt/d/home/esm/B11-5/.metadata/ssh-pub-{{ inventory_hostname }}"
+        dest: "/mnt/d/home/esm/B11-5/.metadata/ed-pub-{{ inventory_hostname }}"
         flat: true
 
     - name: fetch private keys to local
       fetch:
         src: "/home/jenkins/.ssh/id_rsa"
-        dest: "/mnt/d/home/esm/B11-5/.metadata/ssh-priv-{{ inventory_hostname }}"
+        dest: "/mnt/d/home/esm/B11-5/.metadata/ed-priv-{{ inventory_hostname }}"
         flat: true
 
 - name: exchange ssh keys id_rsa (for jenkins)
