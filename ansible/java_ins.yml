@@ -1,0 +1,12 @@
+- name: installing java to nodes
+  hosts: nodes
+  gather_facts: false
+  become: true
+  become_user: "root"
+  become_method: "sudo"
+
+  tasks:
+    - name: install java
+      yum:
+        name: java-11-openjdk
+        update_cache: true
