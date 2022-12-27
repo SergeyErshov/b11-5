@@ -1,4 +1,4 @@
-- name: install docker and additions (keys, groups)
+- name: install docker and config users
   hosts: all
   gather_facts: false
   become: true
@@ -6,4 +6,15 @@
   become_method: "sudo"
 
   roles:
-  
+    - role: "/mnt/d/home/esm/B11-5/ansible/roles/docker"
+
+- name: add user jenkins to docker group
+  hosts: nodes
+  gather_facts: false
+  become: true
+  become_user: "root"
+  become_method: "sudo"
+
+  roles:
+    - role: "/mnt/d/home/esm/B11-5/ansible/roles/ssh-keys"
+
