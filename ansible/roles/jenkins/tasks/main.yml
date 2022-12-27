@@ -1,0 +1,44 @@
+---
+# tasks file for jenkins
+
+  - name: install epel
+    yum:
+      name: epel-release
+      update_cache: true
+
+  - name: install docker
+    yum:
+      name: docker
+
+  - name: start docker service
+    service:
+      name: docker
+      state: started
+
+  - name: install wget, git and mysql client
+    yum:
+      pkg:
+        - wget
+        - git
+        - mysql
+      
+  - name: add jenkins repo
+    shell:
+      cmd: "wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo && rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key"
+
+  - name: install java and jenkins
+    yum:
+      pkg:
+        - java-11-openjdk
+        - jenkins
+      update_cache: true
+
+  - name: starting jenkins
+    service:
+      name: jenkins
+      state: started
+
+  - name: fetch jnkins initial passwd
+    fetch:
+      src: /var/lib/jenkins/secrets/initialAdminPassword
+      dest: /mnt/d/home/esm/B11-5/.metadata
