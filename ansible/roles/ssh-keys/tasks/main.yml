@@ -1,0 +1,15 @@
+---
+# tasks file for ssh-keys
+
+  - name: export public ssh-key to prod and stating
+    authorized_key:
+      user: jenkins
+      state: present
+      key: "{{ lookup('file', '/mnt/d/home/esm/B11-5/.metadata/pub-158.160.47.185') }}"
+
+  - name: set correct permisions on authorized_key
+    file:
+      path: "/home/jenkins/.ssh/authorized_keys"
+      owner: jenkins
+      group: jenkins
+      mode: "0644"
