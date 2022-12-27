@@ -1,43 +1,44 @@
 ---
 # tasks file for docker
-  - name: install epel
-    yum:
-      name: epel-release
-      update_cache: true
 
-  - name: install docker
-    yum:
-      name: docker
+- name: install epel
+  yum:
+    name: epel-release
+    update_cache: true
 
-  - name: start docker service
-    service:
-      name: docker
-      state: started
+- name: install docker
+  yum:
+    name: docker
 
-  - name: creating users (if doesnot exist) and generate ssh keys
-    user:
-      name: jenkins
-      group: jenkins
-      create_home: true
-      generate_ssh_key: true
-      ssh_key_file: "/home/jenkins/.ssh/id_ecdsa"
-      ssh_key_type: "ECDSA"
-      state: "present"
+- name: start docker service
+  service:
+    name: docker
+    state: started
 
-  - name: fetch pub keys to local
-    fetch:
-      src: "/home/jenkins/.ssh/id_ecdsa.pub"
-      dest: "/mnt/d/home/esm/B11-5/.metadata/pub-{{ inventory_hostname }}"
-      flat: true
+- name: creating users (if doesnot exist) and generate ssh keys
+  user:
+    name: jenkins
+    group: jenkins
+    create_home: true
+    generate_ssh_key: true
+    ssh_key_file: "/home/jenkins/.ssh/id_ecdsa"
+    ssh_key_type: "ECDSA"
+    state: "present"
 
-  - name: fetch private keys to local
-    fetch:
-      src: "/home/jenkins/.ssh/id_ecdsa"
-      dest: "/mnt/d/home/esm/B11-5/.metadata/priv-{{ inventory_hostname }}"
-      flat: true
+- name: fetch pub keys to local
+  fetch:
+    src: "/home/jenkins/.ssh/id_ecdsa.pub"
+    dest: "/mnt/d/home/esm/B11-5/.metadata/pub-{{ inventory_hostname }}"
+    flat: true
 
-  - name: add jenkins to docker group
-    user:
-      name: jenkins
-      groups: docker
-      append: true
+- name: fetch private keys to local
+  fetch:
+    src: "/home/jenkins/.ssh/id_ecdsa"
+    dest: "/mnt/d/home/esm/B11-5/.metadata/priv-{{ inventory_hostname }}"
+    flat: true
+
+- name: add jenkins to docker group
+  user:
+    name: jenkins
+    groups: docker
+    append: true

@@ -17,4 +17,3 @@
 
   roles:
     - role: "/mnt/d/home/esm/B11-5/ansible/roles/ssh-keys"
-
