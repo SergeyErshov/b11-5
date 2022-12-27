@@ -1,0 +1,48 @@
+- name: creating ssh keys id_rsa (for jenkins)
+  hosts: jenkins
+  gather_facts: false
+  become: true
+  become_user: "root"
+  become_method: "sudo"
+
+  tasks:
+
+    - name: Create SSH key for user jenkins 
+      ansible.builtin.user:
+        name: jenkins
+        generate_ssh_key: yes
+        ssh_key_bits: 2048
+        ssh_key_file: /home/jenkins/.ssh/id_rsa
+
+    - name: fetch pub keys to local
+      fetch:
+        src: "/home/jenkins/.ssh/id_rsa.pub"
+        dest: "/mnt/d/home/esm/B11-5/.metadata/ssh-pub-{{ inventory_hostname }}"
+        flat: true
+
+    - name: fetch private keys to local
+      fetch:
+        src: "/home/jenkins/.ssh/id_rsa"
+        dest: "/mnt/d/home/esm/B11-5/.metadata/ssh-priv-{{ inventory_hostname }}"
+        flat: true
+
+- name: exchange ssh keys id_rsa (for jenkins)
+  hosts: nodes
+  gather_facts: false
+  become: true
+  become_user: "root"
+  become_method: "sudo"
+
+  tasks:
+    - name: export public ssh-key to prod and stating
+      authorized_key:
+        user: jenkins
+        state: present
+        key: "{{ lookup('file', '/mnt/d/home/esm/B11-5/.metadata/ssh-pub-158.160.47.185') }}"
+
+    - name: set correct permisions on authorized_key
+      file:
+        path: "/home/jenkins/.ssh/authorized_keys"
+        owner: jenkins
+        group: jenkins
+        mode: "0644"
