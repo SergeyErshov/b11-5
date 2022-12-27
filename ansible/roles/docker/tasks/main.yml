@@ -18,7 +18,6 @@
 - name: creating users (if doesnot exist) and generate ssh keys
   user:
     name: jenkins
-    group: jenkins
     create_home: true
     generate_ssh_key: true
     ssh_key_file: "/home/jenkins/.ssh/id_ecdsa"
@@ -40,5 +39,5 @@
 - name: add jenkins to docker group
   user:
     name: jenkins
-    groups: docker
+    groups: dockerroot
     append: true
