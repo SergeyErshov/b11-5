@@ -1,3 +1,13 @@
+- name: preconfig main node
+  hosts: jenkins
+  gather_facts: false
+  become: true
+  become_user: "root"
+  become_method: "sudo"
+
+  roles:
+    - role: "/mnt/d/home/esm/B11-5/ansible/roles/preconfig"
+
 - name: install docker and config users
   hosts: all
   gather_facts: false
