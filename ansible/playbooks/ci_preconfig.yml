@@ -7,7 +7,7 @@
 
   tasks:
 
-    - name: Ensure group "somegroup" exists
+    - name: add group docker if not exists
       group:
         name: docker
         state: present
@@ -17,3 +17,8 @@
         name: jenkins
         groups: docker
         append: true
+
+    - name: restart docker service
+      service:
+        name: docker
+        state: restarted
