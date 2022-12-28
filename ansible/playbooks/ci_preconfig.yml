@@ -1,0 +1,19 @@
+- name: installing java to nodes
+  hosts: jenkins
+  gather_facts: false
+  become: true
+  become_user: "root"
+  become_method: "sudo"
+
+  tasks:
+
+    - name: Ensure group "somegroup" exists
+      group:
+        name: docker
+        state: present
+
+    - name: add user jenkins to group docker
+      user:
+        name: jenkins
+        groups: docker
+        append: true
