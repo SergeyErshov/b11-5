@@ -1,0 +1,71 @@
+pipeline {
+    agent {
+        label 'main'
+    }
+    stages {
+        stage('Preconfig') {
+            steps {
+                dir ('/tmp/data') {
+                    git branch: 'summary/dev', credentialsId: 'a1008761-d4dd-4802-9b23-0d30876726ba', url: 'git@github.com:SergeyErshov/b11-5.git'
+                }
+            sh 'cat /tmp/data/index.html >> /tmp/www/index.html'
+            }
+        }
+        
+        stage ('Docker') {
+            steps {
+                sh "docker run --name nginx -p 9889:80 -v /tmp/www:/usr/share/nginx/html -d nginx"
+            }
+        }
+        
+        stage("Status check") {
+            steps {
+                script {
+                    final String code = sh(script: "curl -s -w '%{http_code}' -o /dev/null http://158.160.47.185:9889", returnStdout: true).trim()
+                    echo "HTTP response status code: ${code}"
+                    if (code == "200") {
+                        slackSend channel: 'D0469P4V56H', color: 'good', message: "SUCCESS. HTTP response status code is '${code}'", teamDomain: 'sf-devops-workspace', tokenCredentialId: 'dba9f135-fa62-4455-8f31-e43f19a41e08'
+                    }
+                    else {
+                        slackSend channel: 'D0469P4V56H', color: 'warning', message: "WARNING. HTTP response status code is '${code}'", teamDomain: 'sf-devops-workspace', tokenCredentialId: 'dba9f135-fa62-4455-8f31-e43f19a41e08'
+                    }
+                }
+            }
+        }
+        
+        stage("md5 comp") {
+            steps {
+                script {
+                    final String md5http = sh(script: "curl -I -o /dev/null http://158.160.47.185:8050 | md5sum", returnStdout: true).trim()
+                    echo "HTTP response md5 summ: ${md5http}"
+                    
+                    final String md5file = sh(script: "md5sum -b /tmp/www/index.html", returnStdout: true).trim()
+                    echo "File md5 summ: ${md5file}"
+                    
+                    final String[] arr_a = md5http.split(" ")
+                    final String sum_http = arr_a[0]
+                    final String[] arr_b = md5file.split(" ")
+                    final String sum_file = arr_b[0]
+                    echo "http md5 = ${sum_http}"
+                    echo "file md5 = ${sum_file}"
+                    
+                    if (sum_http.contentEquals(sum_file)) {
+                        slackSend channel: 'D0469P4V56H', color: 'good', message: "MD5 summ is equal", teamDomain: 'sf-devops-workspace', tokenCredentialId: 'dba9f135-fa62-4455-8f31-e43f19a41e08'
+                    }
+                    
+                    else {
+                        slackSend channel: 'D0469P4V56H', color: 'danger', message: "MD5 summ is different", teamDomain: 'sf-devops-workspace', tokenCredentialId: 'dba9f135-fa62-4455-8f31-e43f19a41e08'
+                    }
+                }
+            }
+        }
+    }
+    post {
+        always {
+            script {
+                sh "docker stop nginx"
+                sh "docker rm nginx"
+            }
+        }
+    }
+}
