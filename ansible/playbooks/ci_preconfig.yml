@@ -22,3 +22,8 @@
       service:
         name: docker
         state: restarted
+
+    - name: install curl
+      yum:
+        name: curl
+        state: present
